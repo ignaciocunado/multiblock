@@ -2,7 +2,7 @@
 #root {
 	width: 100vw;
 	height: 100vh;
-	background: linear-gradient(334deg, #6b97f7, #7525e2, #f7137e);
+	background: linear-gradient(334deg, #0e2e74, #43049a, #9f074e);
 	background-size: 180% 180%;
 	animation: gradient-animation 20s ease infinite;
 }
