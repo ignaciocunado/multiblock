@@ -1,0 +1,19 @@
+#navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* background: transparent;
+    backdrop-filter: blur(100px); */
+    background-color: rgba(0.3, 0.3, 0.3, 0.8);
+    color: white;
+    min-width: 100%;
+    vertical-align: middle;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+#logo {
+    max-width: 4%;
+    padding-left: -5%;
+}

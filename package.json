@@ -18,14 +18,12 @@
   },
   "homepage": "https://github.com/ignaciocunado/multiblock#readme",
   "dependencies": {
-    "dotenv": "^16.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.7",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "hardhat": "^2.12.4"
+    "hardhat": "^2.18.0"
   }
 }
