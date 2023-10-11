@@ -1,0 +1,42 @@
+#maintitle {
+    color: white;
+    font-size: xxx-large;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 5%;
+}
+
+#blackLetters {
+    color: black;
+}
+
+#letters {
+    line-height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#text {
+    color: white;
+    max-width: 85%;
+    margin: auto;
+    text-align: center;
+    font-size: x-large;
+    padding-bottom: 1%;
+}
+
+#logo {
+    max-width: 20%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#start {
+    background-color: black;
+    border-radius: 20%;
+    border: 0;
+    color: white;
+}

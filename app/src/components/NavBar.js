@@ -39,12 +39,12 @@ function NavBar () {
     return (
         <div id='navbar'> 
             <div id='logoTitle'>
-                <img src='logo.png' id='logo' alt='logo' />
-                <h1 onClick={goHome}>MultiBlock</h1>
+                {/* <img src='logo.png' id='logo' alt='logo' /> */}
+                <h2 onClick={goHome}>MultiBlock</h2>
             </div>
-            <h2 onClick={goERC20}>ERC-20</h2>
-            <h2 onClick={goEscrow}>Escrow</h2>
-            <h2 onClick={goMultiSig}>Mutisig</h2>
+            <h3 onClick={goERC20}>ERC-20</h3>
+            <h3 onClick={goEscrow}>Escrow</h3>
+            <h3 onClick={goMultiSig}>Mutisig</h3>
             <img src='metamask.png' id='metamask' alt='metamaskLogo' onClick={connect} />
         </div>
     );
