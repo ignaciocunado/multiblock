@@ -10,7 +10,7 @@ contract EscrowFactory {
 
     event EscrowDeployed(address indexed sender, address _arbiter, address _beneficiary );
 
-    function deployContract(address arbiter, address beneficiary) external returns(address) payable{
+    function deployContract(address arbiter, address beneficiary) external payable returns(address){
         Escrow escrowContract = new Escrow(arbiter, beneficiary, msg.sender);
         (bool success, ) = payable(address(escrowContract)).call{value: msg.value}("");
         require(success);

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.20;
 
 contract Escrow {
 
@@ -24,5 +24,9 @@ contract Escrow {
  		require(sent, "Failed to send Ether");
 		emit Approved(balance);
 		isApproved = true;
+	}
+
+	function receive() external payable {
+		
 	}
 }

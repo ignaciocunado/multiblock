@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ignaciocunado/multiblock#readme",
   "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {

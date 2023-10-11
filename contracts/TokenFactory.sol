@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
-import {ERC20} from './ERC20.sol';
+import {Token} from './Token.sol';
 
 contract TokenFactory {
 
@@ -14,16 +14,17 @@ contract TokenFactory {
         uint _initialSupply
     );
 
-    function mintContract(string memory name, string memory ticker, uint decimals, uint initialSupply) external returns(address){
-        ERC20 token = new ERC20(name, ticker, decimals, initialSupply);
+    function mintContract(string memory name, string memory ticker, uint initialSupply) external returns(address){
+        Token token = new Token(name, ticker, initialSupply);
         bool success = token.transfer(msg.sender, initialSupply);
         require(success);
         emit TokenCreated(address(token), name, ticker, initialSupply);
         tokensDeployedByUser[msg.sender].push(address(token));
-        return address(newToken);
+        return address(token);
     }
 
     function getUserTokens() public view returns(address[] memory) {
         return tokensDeployedByUser[msg.sender];
     }
+
 }
