@@ -1,10 +1,10 @@
 #navbar {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     /* background: transparent;
     backdrop-filter: blur(100px); */
-    background-color: rgba(0.3, 0.3, 0.3, 0.8);
+    background-color: rgba(0.3, 0.3, 0.3, 0.6);
     color: white;
     min-width: 100%;
     vertical-align: middle;
@@ -13,7 +13,19 @@
     padding: 0;
 }
 
-#logo {
-    max-width: 4%;
-    padding-left: -5%;
+#logoTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    max-width: 20%;
+    padding-left: 2%;
 }
+#logo {
+    max-width: 30%;
+    padding-left: 5%;
+}
+
+h2 {
+    padding-right: 2%;
+}
+

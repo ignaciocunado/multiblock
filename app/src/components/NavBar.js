@@ -23,8 +23,10 @@ function NavBar () {
 
     return (
         <div id='navbar'> 
-            <img src='logo.png' id='logo' alt='logo'></img>
-            <h1 onClick={goHome}>MultiBlock</h1>
+            <div id='logoTitle'>
+                <img src='logo.png' id='logo' alt='logo' />
+                <h1 onClick={goHome}>MultiBlock</h1>
+            </div>
             <h2 onClick={goERC20}>ERC-20</h2>
             <h2 onClick={goEscrow}>Escrow</h2>
             <h2 onClick={goMultiSig}>Mutisig</h2>
