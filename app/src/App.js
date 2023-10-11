@@ -5,6 +5,7 @@ import ERC20 from './pages/ERC20.js';
 import MultiSig from './pages/Multisig.js';
 
 function App() {
+
     return(
         <Routes>
             <Route path='/' element={<Home />} />
