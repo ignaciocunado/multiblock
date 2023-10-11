@@ -5,6 +5,7 @@ function Home() {
     return(
         <>
             <NavBar />
+            <br /><br /><br />
             <HomeInfo />
         </>
     )

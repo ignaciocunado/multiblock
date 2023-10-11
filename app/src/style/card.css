@@ -1,0 +1,32 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-color: black;
+    border-radius: 5%;
+    box-shadow: 3;
+    margin: 3%;
+    padding: 2%;
+    font-size: large;
+}
+
+.button {
+    background-color: #790189;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 20px;
+    padding: 9px 25px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #ffffff;
+    margin: 20px;
+  }

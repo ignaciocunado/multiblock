@@ -1,20 +1,17 @@
 import '../style/NavBar.css';
 import {useNavigate} from 'react-router-dom';
-import {useSDK} from '@metamask/sdk-react';
-import {useState} from 'react';
 
 function NavBar () {
 
-    const [account, setAccount] = useState('');
-    const { sdk, connected, connecting, provider, chainId } = useSDK();
-
     const connect = async () => {
         try {
-        const accounts = await sdk?.connect();
-        setAccount(accounts?.[0]);
+            await window.ethereum.request({
+                "method": "eth_requestAccounts",
+                "params": []
+                });
         } 
         catch(err) {
-        console.warn(`failed to connect..`, err);
+            console.log("Request to connect rejected");
         }
     };
 
