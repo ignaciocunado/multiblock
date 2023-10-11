@@ -1,15 +1,25 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { ethers } from 'ethers';
+import { Alchemy, Network } from 'alchemy-sdk';
 import contractABI from '../abi/tokenABI.json';
 import '../style/MintERC20.css';
 import '../style/card.css';
+
+const settings = {
+    apiKey: process.env.SEPOLIA_KEY,
+    network: Network.ETH_SEPOLIA,
+};
+
+const alchemy = new Alchemy(settings);
 
 function MintERC20() {
 
     const [account, setAccount] = useState('');
     const [network, setNetwork] = useState('');
     const [connected, setConnected] = useState(false);
+    const [blockNumber, setBlockNuber] = useState(0);
+    const [tokens, setTokens] = useState([]);
     const factoryAddress = '0xAC1eE48dF6768a98C69c753126304dA1460b7A47';
 
     async function changeNetwork() {
@@ -45,7 +55,7 @@ function MintERC20() {
            }
         }
         getAccounts();
-    })
+    }, [])
   
     useEffect(() => {
         async function getNetwork() {
@@ -58,8 +68,28 @@ function MintERC20() {
             }
         }
         getNetwork();
-    })
+    }, [])
 
+    useEffect(() => {
+        async function getBlockNumber() {
+            await alchemy.core.getBlockNumber().then((res) => setBlockNuber(res));
+        }
+        getBlockNumber();
+    }, [])
+
+
+    useEffect(() => {
+        async function getEvents() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const contract = new ethers.Contract(factoryAddress, contractABI.abi, provider);
+            const mintFilter = contract.filters.TokenCreated();
+            const allEvents = await contract.queryFilter(mintFilter, blockNumber - 10000, blockNumber);
+            setTokens(allEvents?.filter(event => event?.address === account).map(event => event.args));
+        }
+        getEvents();
+    }, [account, blockNumber]);
+
+ 
     async function mint() {
         const name = document.getElementById('name').value;
         const ticker = document.getElementById('ticker').value;
@@ -78,8 +108,8 @@ function MintERC20() {
             return;
         }
         try {
-            const newProvider = new ethers.providers.Web3Provider(window.ethereum);
-            const token = new ethers.Contract(factoryAddress, contractABI.abi, newProvider.getSigner(0));
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const token = new ethers.Contract(factoryAddress, contractABI.abi, provider.getSigner(0));
             const tx = await token.mintContract(name, ticker, supply);
         }
         catch(e) {
@@ -105,7 +135,7 @@ function MintERC20() {
                 }}>Mint</div>
             </div>
             <div className='card' id='existingTokens'>
-
+                <h2>Your tokens</h2>
             </div>
         </div>
         </>
