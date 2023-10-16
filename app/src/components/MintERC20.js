@@ -5,6 +5,7 @@ import { Alchemy, Network } from 'alchemy-sdk';
 import contractABI from '../abi/tokenABI.json';
 import '../style/MintERC20.css';
 import '../style/card.css';
+import Token from './Token';
 
 const settings = {
     apiKey: process.env.SEPOLIA_KEY,
@@ -82,11 +83,11 @@ function MintERC20() {
         async function getEvents() {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const contract = new ethers.Contract(factoryAddress, contractABI.abi, provider);
-            const mintFilter = contract.filters.TokenCreated();
-            const allEvents = await contract.queryFilter(mintFilter, blockNumber - 10000, blockNumber);
-            setTokens(allEvents?.filter(event => event?.address === account).map(event => event.args));
+            const tokensByUser = await contract.connect(account).getUserTokens().then((res) => setTokens(res));
+            console.log(tokensByUser);
         }
         getEvents();
+        console.log(tokens)
     }, [account, blockNumber]);
 
  
@@ -136,6 +137,11 @@ function MintERC20() {
             </div>
             <div className='card' id='existingTokens'>
                 <h2>Your tokens</h2>
+                <div id='container'>
+                    {tokens?.map((token) => {
+                        return <Token key={token} contract={token} />
+                    })}
+                </div>
             </div>
         </div>
         </>
