@@ -1,6 +1,5 @@
 /* Copyright (c) 2023 by Carmen Ansio (https://codepen.io/carmenansio/pen/MWExRMQ) */
 #root {
-	width: 100vw;
 	height: 100vh;
 	background: linear-gradient(334deg, #0e2e74, #43049a, #9f074e);
 	background-size: 180% 180%;
@@ -26,10 +25,16 @@ body {
 	  sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-  }
+	min-height: 100vh;;
+}
   
-  code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-	  monospace;
-  }
+code {
+font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+	monospace;
+}
+
+html {
+	min-height: 100%;
+	width: 100%;
+}
   

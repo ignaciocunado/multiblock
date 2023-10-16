@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { Alchemy, Network } from 'alchemy-sdk';
-import contractABI from '../abi/tokenABI.json';
-import Token from './Token';
+import contractABI from '../abi/escrowABI.json';
+import Escrow from './Escrow.js';
 import '../style/Mint.css';
 import '../style/card.css';
 
@@ -14,14 +14,13 @@ const settings = {
 
 const alchemy = new Alchemy(settings);
 
-function MintERC20() {
-
+function MintEscrow() {
     const [account, setAccount] = useState('');
     const [network, setNetwork] = useState('');
     const [connected, setConnected] = useState(false);
     const [blockNumber, setBlockNuber] = useState(0);
-    const [tokens, setTokens] = useState([]);
-    const factoryAddress = '0xAC1eE48dF6768a98C69c753126304dA1460b7A47';
+    const [escrows, setEscrows] = useState([]);
+    const factoryAddress = '0xaC6E7931D961B77DBf349Bc695403a29e8f67005';
 
     async function changeNetwork() {
         try {
@@ -80,8 +79,8 @@ function MintERC20() {
         async function getBlockNumber() {
             await alchemy.core.getBlockNumber().then((res) => setBlockNuber(res));
         }
-
         getBlockNumber();
+
     }, [])
 
 
@@ -90,7 +89,7 @@ function MintERC20() {
         async function getEvents() {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const contract = new ethers.Contract(factoryAddress, contractABI.abi, provider);
-            const tokensByUser = await contract.connect(account).getUserTokens().then((res) => setTokens(res));
+            const escrowsByUser = await contract.connect(account).getUserContracts().then((res) => setEscrows(res));
         }
 
         getEvents();
@@ -98,11 +97,16 @@ function MintERC20() {
 
  
     async function mint() {
-        const name = document.getElementById('name').value;
-        const ticker = document.getElementById('ticker').value;
-        const supply = ethers.utils.parseEther(document.getElementById('supply').value);
-        if(supply < 0 || name.length === 0 || ticker.length === 0 ) {
-            alert("Please enter correct inputs");
+        const reg = new RegExp('0x[0-9a-fA-F]{40}');
+        const arbiter = document.getElementById('arbiter').value;
+        const beneficiary = document.getElementById('beneficiary').value;
+        const value = ethers.utils.parseEther(document.getElementById('value').value);
+        if(!arbiter.match(reg) || !beneficiary.match(reg)) {
+            alert("Please enter correct addresses");
+            return;
+        }
+        if(value < 0) {
+            alert("Value cannot be smaller than zero");
             return;
         }
         if(!connected) {
@@ -116,41 +120,52 @@ function MintERC20() {
         }
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const token = new ethers.Contract(factoryAddress, contractABI.abi, provider.getSigner(0));
-            const tx = await token.mintContract(name, ticker, supply).then(() => {
-                setTokens((prev) => {
-                    return [...prev];
-                })
-            });
+            const escrow = new ethers.Contract(factoryAddress, contractABI.abi, provider.getSigner(0));
+            const tx = await token.deployContract(arbiter, beneficiary, {value: ethers.utils.parseUnits(value, 'ether')});
         }
         catch(e) {
             alert("Transaction failed or cancelled, please try again.");
         }
     }
 
+    async function approve() {
+
+    }
+    
+
     return (
         <>
-        <center><h1>ERC20</h1></center>
+        <center><h1>Escrow</h1></center>
         <div id="main">
             <div className='card' id='createToken'>
             <h2> Token name </h2>
-                <label>Token Name: <input type="text" id="name" placeholder='Ether' minLength="1"/></label>
+                <label>Arbiter: <input type="text" id="arbiter" placeholder='0x...'/></label>
 
-                <label>Token Ticker: <input type="text" id="ticker" placeholder='ETH' minLength="1" maxLength="5"/></label>
+                <label>Beneficiary: <input type="text" id="beneficiary" placeholder='0x...'/></label>
 
-                <label>Initial Supply: <input type='number' id="supply" placeholder='1000' min="1"/></label>
+                <label>Value (in ETH): <input type='number' id="value" placeholder='1000' min="0"/></label>
 
                 <div className="button" id="deploy" onClick={(e) => {
                     e.preventDefault();
                     mint();
                 }}>Mint</div>
             </div>
-            <div className='card' id='existingTokens'>
-                <h2>Your tokens</h2>
-                <div id='container'>
-                    {tokens?.map((token) => {
-                        return <Token key={token} contract={token} />
-                    })}
+            <div id='right'>
+                <div className='card' id='existingEscrows'>
+                    <h2>Your Escrows</h2>
+                    <div id='container'>
+                        {escrows?.map((escrow) => {
+                            return <Escrow key={escrow} contract={escrow} />
+                        })}
+                    </div>
+                </div>
+                <div className='card' id='approve'>
+                    <h2>Approve Escrow</h2>
+                    <label>Address: <input type='text' id='contract' placeholder='0x...' /></label>
+                    <div className="button" id="approve" onClick={(e) => {
+                    e.preventDefault();
+                    approve();
+                }}>Approve</div>
                 </div>
             </div>
         </div>
@@ -158,4 +173,4 @@ function MintERC20() {
     );
 }
 
-export default MintERC20;
+export default MintEscrow;

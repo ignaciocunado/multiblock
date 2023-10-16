@@ -1,9 +1,16 @@
-#main {
+#main, #right {
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
     align-items: center;
     text-align: center;
+}
+
+#main {
+    flex-direction: row;
+}
+
+#right {
+    flex-direction: column;
 }
 
 h1 {

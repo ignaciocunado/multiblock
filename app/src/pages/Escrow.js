@@ -1,3 +1,4 @@
+import MintEscrow from "../components/MintEscrow";
 import NavBar from "../components/NavBar";
 
 function Escrow() {
@@ -5,6 +6,7 @@ function Escrow() {
     return (
         <>
             <NavBar />
+            <MintEscrow />
         </>
     );
 }
