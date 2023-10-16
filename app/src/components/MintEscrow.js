@@ -121,7 +121,11 @@ function MintEscrow() {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const escrow = new ethers.Contract(factoryAddress, contractABI.abi, provider.getSigner(0));
-            const tx = await token.deployContract(arbiter, beneficiary, {value: ethers.utils.parseUnits(value, 'ether')});
+            const tx = await token.deployContract(arbiter, beneficiary, {value: ethers.utils.parseUnits(value, 'ether')}).then(() => {
+                setEscrows((prev) => {
+                    return [...prev];
+                })
+            });
         }
         catch(e) {
             alert("Transaction failed or cancelled, please try again.");
@@ -129,7 +133,6 @@ function MintEscrow() {
     }
 
     async function approve() {
-
     }
     
 
