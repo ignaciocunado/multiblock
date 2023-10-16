@@ -39,6 +39,11 @@ function MintEscrow() {
         }
     }
 
+    window.ethereum.on('accountsChanged', function (accounts) {
+        setAccount(accounts[0]);
+    });
+
+
     useEffect(() => {
 
         async function getAccounts() {
@@ -152,7 +157,7 @@ function MintEscrow() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const escrow =  new ethers.Contract(contractAddress, escrowABI.abi , provider.getSigner(0));
         try {
-            const tx = escrow.approve();
+            const tx = await escrow.connect(account).approve();
         }
         catch(e) {
 

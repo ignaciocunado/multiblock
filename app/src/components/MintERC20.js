@@ -23,6 +23,10 @@ function MintERC20() {
     const [tokens, setTokens] = useState([]);
     const factoryAddress = '0xAC1eE48dF6768a98C69c753126304dA1460b7A47';
 
+    window.ethereum.on('accountsChanged', function (accounts) {
+        setAccount(accounts[0]);
+    });
+
     async function changeNetwork() {
         try {
             await window.ethereum.request({
