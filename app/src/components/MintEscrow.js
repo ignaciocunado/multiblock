@@ -21,7 +21,7 @@ function MintEscrow() {
     const [connected, setConnected] = useState(false);
     const [blockNumber, setBlockNuber] = useState(0);
     const [escrows, setEscrows] = useState([]);
-    const factoryAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+    const factoryAddress = '0xE2b370662Cc9dBcdEd41f1229A687faD0Eb30fbA';
 
     async function changeNetwork() {
         try {
@@ -128,7 +128,7 @@ function MintEscrow() {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const factory = new ethers.Contract(factoryAddress, factoryABI.abi, provider.getSigner(0));
-            const tx = await factory.deployContract(arbiter, beneficiary, {value: value, gasLimit: 100000}).then(() => {
+            const tx = await factory.deployContract(arbiter, beneficiary, {value: value}).then(() => {
                 setEscrows((prev) => {
                     return [...prev];
                 })
