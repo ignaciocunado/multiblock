@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 import { Alchemy, Network } from 'alchemy-sdk';
 import factoryABI from '../abi/escrowFactoryABI.json';
-import escrowABI from '';
+import escrowABI from '../abi/escrowABI.json';
 import Escrow from './Escrow.js';
 import '../style/Mint.css';
 import '../style/card.css';
@@ -21,7 +21,7 @@ function MintEscrow() {
     const [connected, setConnected] = useState(false);
     const [blockNumber, setBlockNuber] = useState(0);
     const [escrows, setEscrows] = useState([]);
-    const factoryAddress = '0xaC6E7931D961B77DBf349Bc695403a29e8f67005';
+    const factoryAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
     async function changeNetwork() {
         try {
@@ -113,7 +113,7 @@ function MintEscrow() {
         const reg = new RegExp('0x[0-9a-fA-F]{40}');
         const arbiter = document.getElementById('arbiter').value;
         const beneficiary = document.getElementById('beneficiary').value;
-        const value = ethers.utils.parseEther(document.getElementById('value').value);
+        const value = ethers.utils.parseUnits(document.getElementById('value').value, 'ether');
         if(!arbiter.match(reg) || !beneficiary.match(reg)) {
             alert("Please enter correct addresses");
             return;
@@ -128,7 +128,7 @@ function MintEscrow() {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const factory = new ethers.Contract(factoryAddress, factoryABI.abi, provider.getSigner(0));
-            const tx = await factory.deployContract(arbiter, beneficiary, {value: ethers.utils.parseUnits(value, 'ether')}).then(() => {
+            const tx = await factory.deployContract(arbiter, beneficiary, {value: value, gasLimit: 100000}).then(() => {
                 setEscrows((prev) => {
                     return [...prev];
                 })
@@ -136,6 +136,7 @@ function MintEscrow() {
         }
         catch(e) {
             alert("Transaction failed or cancelled, please try again.");
+            console.log(e);
         }
     }
 

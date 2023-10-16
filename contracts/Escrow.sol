@@ -25,8 +25,4 @@ contract Escrow {
 		emit Approved(balance);
 		isApproved = true;
 	}
-
-	function receive() external payable {
-		
-	}
 }
