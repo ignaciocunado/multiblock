@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { Alchemy, Network } from 'alchemy-sdk';
-import contractABI from '../abi/tokenABI.json';
+import contractABI from '../abi/tokenFactoryABI.json';
 import Token from './Token';
 import '../style/Mint.css';
 import '../style/card.css';

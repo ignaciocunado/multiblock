@@ -1,66 +1,104 @@
 {
-  "abi": [
-    {
-      "anonymous": false,
-      "inputs": [
+    "abi": [
         {
-          "indexed": true,
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_arbiter",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_beneficiary",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_depositor",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "payable",
+            "type": "constructor"
         },
         {
-          "indexed": false,
-          "internalType": "address",
-          "name": "_arbiter",
-          "type": "address"
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Approved",
+            "type": "event"
         },
         {
-          "indexed": false,
-          "internalType": "address",
-          "name": "_beneficiary",
-          "type": "address"
-        }
-      ],
-      "name": "EscrowDeployed",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "arbiter",
-          "type": "address"
+            "inputs": [],
+            "name": "approve",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
-          "internalType": "address",
-          "name": "beneficiary",
-          "type": "address"
-        }
-      ],
-      "name": "deployContract",
-      "outputs": [
+            "inputs": [],
+            "name": "arbiter",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getUserContracts",
-      "outputs": [
+            "inputs": [],
+            "name": "beneficiary",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
         {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
+            "inputs": [],
+            "name": "depositor",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "isApproved",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "receive",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
+    ]
 }

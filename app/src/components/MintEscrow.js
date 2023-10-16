@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { Alchemy, Network } from 'alchemy-sdk';
-import contractABI from '../abi/escrowABI.json';
+import factoryABI from '../abi/escrowFactoryABI.json';
+import escrowABI from '';
 import Escrow from './Escrow.js';
 import '../style/Mint.css';
 import '../style/card.css';
@@ -88,14 +89,26 @@ function MintEscrow() {
 
         async function getEvents() {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const contract = new ethers.Contract(factoryAddress, contractABI.abi, provider);
+            const contract = new ethers.Contract(factoryAddress, factoryABI.abi, provider);
             const escrowsByUser = await contract.connect(account).getUserContracts().then((res) => setEscrows(res));
         }
 
         getEvents();
     }, [account, blockNumber]);
 
- 
+    function checks() {
+        if(!connected) {
+            alert("Please connect your wallet");
+            return false;
+        }
+        if(network !== '0xaa36a7') {
+            alert("Please switch to the correct network");
+            changeNetwork();
+            return false;
+        }
+        return true;
+    }
+
     async function mint() {
         const reg = new RegExp('0x[0-9a-fA-F]{40}');
         const arbiter = document.getElementById('arbiter').value;
@@ -109,19 +122,13 @@ function MintEscrow() {
             alert("Value cannot be smaller than zero");
             return;
         }
-        if(!connected) {
-            alert("Please connect your wallet");
-            return;
-        }
-        if(network !== '0xaa36a7') {
-            alert("Please switch to the correct network");
-            changeNetwork();
+        if(!checks()) {
             return;
         }
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const escrow = new ethers.Contract(factoryAddress, contractABI.abi, provider.getSigner(0));
-            const tx = await token.deployContract(arbiter, beneficiary, {value: ethers.utils.parseUnits(value, 'ether')}).then(() => {
+            const factory = new ethers.Contract(factoryAddress, factoryABI.abi, provider.getSigner(0));
+            const tx = await factory.deployContract(arbiter, beneficiary, {value: ethers.utils.parseUnits(value, 'ether')}).then(() => {
                 setEscrows((prev) => {
                     return [...prev];
                 })
@@ -133,6 +140,22 @@ function MintEscrow() {
     }
 
     async function approve() {
+        if(!checks()) {
+            return false;
+        }
+        const contractAddress = document.getElementById('contract').value;
+        const reg = new RegExp('0x[0-9a-fA-F]{40}');
+        if(!contractAddress.match(reg)) {
+            alert("Please enter a valid contract address");
+        }
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const escrow =  new ethers.Contract(contractAddress, escrowABI.abi , provider.getSigner(0));
+        try {
+            const tx = escrow.approve();
+        }
+        catch(e) {
+
+        }
     }
     
 
