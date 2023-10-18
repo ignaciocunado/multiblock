@@ -92,13 +92,6 @@
             ],
             "stateMutability": "view",
             "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "receive",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
         }
     ]
 }
