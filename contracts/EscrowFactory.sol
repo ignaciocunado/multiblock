@@ -11,7 +11,9 @@ contract EscrowFactory {
     event EscrowDeployed(address indexed sender, address _arbiter, address _beneficiary );
 
     function deployContract(address arbiter, address beneficiary) external payable returns(address){
-        Escrow escrowContract = new Escrow{value: msg.value}(arbiter, beneficiary, msg.sender);
+        uint amount = msg.value;
+        address depositor = msg.sender;
+        Escrow escrowContract = new Escrow{value: amount}(arbiter, beneficiary, depositor);
         emit EscrowDeployed(msg.sender, arbiter, beneficiary);
         contractsDeployedByUser[msg.sender].push(address(escrowContract));
         return address(escrowContract);

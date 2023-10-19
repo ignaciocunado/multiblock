@@ -21,7 +21,7 @@ function MintEscrow() {
     const [connected, setConnected] = useState(false);
     const [blockNumber, setBlockNuber] = useState(0);
     const [escrows, setEscrows] = useState([]);
-    const factoryAddress = '0x9F2d63ADC2a6c892a615D71390be6F2c91970EC2';
+    const factoryAddress = '0xa5fF5C2D43672A5b6Ed250F6f7B69b1866823fEc';
 
     async function changeNetwork() {
         try {
@@ -140,12 +140,11 @@ function MintEscrow() {
             });
         }
         catch(e) {
-            alert("Transaction failed or cancelled, please try again.");
             console.log(e);
         }
     }
 
-    async function approve() {
+    async function approveEscrow() {
         if(!checks()) {
             return false;
         }
@@ -157,7 +156,7 @@ function MintEscrow() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const escrow =  new ethers.Contract(contractAddress, escrowABI.abi , provider.getSigner(0));
         try {
-            const tx = await escrow.approve({gasLimit: 500000});
+            const tx = await escrow.approve();
         }
         catch(e) {
             alert(e);
@@ -171,9 +170,9 @@ function MintEscrow() {
         <div id="main">
             <div className='card' id='createToken'>
             <h2> Token name </h2>
-                <label>Arbiter: <input type="text" id="arbiter" placeholder='0x...'/></label>
+                <label>Arbiter: <input type="text" id="arbiter" placeholder=''/></label>
 
-                <label>Beneficiary: <input type="text" id="beneficiary" placeholder='0x...'/></label>
+                <label>Beneficiary: <input type="text" id="beneficiary" placeholder=''/></label>
 
                 <label>Value (in ETH): <input type='number' id="value" placeholder='1000' min="0"/></label>
 
@@ -196,7 +195,7 @@ function MintEscrow() {
                     <label>Address: <input type='text' id='contract' placeholder='0x...' /></label>
                     <div className="button" id="approve" onClick={(e) => {
                     e.preventDefault();
-                    approve();
+                    approveEscrow();
                 }}>Approve</div>
                 </div>
             </div>
